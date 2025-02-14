@@ -96,14 +96,35 @@ async function addAccount(data) {
 }
 
 async function accountSelect(data) {
+    // Verificar si los datos son válidos
+    if (!data || !data.ID) {
+        console.error('Datos inválidos o falta el ID:', data);
+        return;
+    }
+
+    // Obtener el elemento de la cuenta por su ID
     let account = document.getElementById(`${data.ID}`);
+
+    // Verificar si el elemento existe
+    if (!account) {
+        console.error(`No se encontró el elemento de la cuenta con ID "${data.ID}".`);
+        return;
+    }
+
+    // Deseleccionar la cuenta activa (si existe)
     let activeAccount = document.querySelector('.account-select');
+    if (activeAccount) {
+        activeAccount.classList.remove('account-select');
+    }
 
-    if (activeAccount) activeAccount.classList.toggle('account-select');
+    // Seleccionar la nueva cuenta
     account.classList.add('account-select');
-    if (data?.profile?.skins[0]?.base64) headplayer(data.profile.skins[0].base64);
-}
 
+    // Actualizar la cabeza del jugador si hay una skin disponible
+    if (data?.profile?.skins[0]?.base64) {
+        await headplayer(data.profile.skins[0].base64);
+    }
+}
 async function headplayer(skinBase64) {
     let skin = await new skin2D().creatHeadTexture(skinBase64);
     document.querySelector(".player-head").style.backgroundImage = `url(${skin})`;
@@ -148,10 +169,10 @@ export {
     logger as logger,
     popup as popup,
     setBackground as setBackground,
-    setInstanceBackground as setInstanceBackground, // Exportar la nueva función
+    setInstanceBackground as setInstanceBackground,
     skin2D as skin2D,
     addAccount as addAccount,
-    accountSelect as accountSelect,
+    accountSelect as accountSelect, // Función arreglada
     slider as Slider,
     pkg as pkg,
     setStatus as setStatus
