@@ -3,8 +3,8 @@
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
 
-const { ipcRenderer } = require('electron')
-const { Status } = require('minecraft-java-core')
+const { ipcRenderer } = require('electron');
+const { Status } = require('minecraft-java-core');
 const fs = require('fs');
 const pkg = require('../package.json');
 
@@ -19,10 +19,10 @@ async function setBackground(theme) {
     if (typeof theme == 'undefined') {
         let databaseLauncher = new database();
         let configClient = await databaseLauncher.readData('configClient');
-        theme = configClient?.launcher_config?.theme || "auto"
-        theme = await ipcRenderer.invoke('is-dark-theme', theme).then(res => res)
+        theme = configClient?.launcher_config?.theme || "auto";
+        theme = await ipcRenderer.invoke('is-dark-theme', theme).then(res => res);
     }
-    let background
+    let background;
     let body = document.body;
     body.className = theme ? 'dark global' : 'light global';
     if (fs.existsSync(`${__dirname}/assets/images/background/easterEgg`) && Math.random() < 0.005) {
@@ -38,19 +38,46 @@ async function setBackground(theme) {
     body.style.backgroundSize = 'cover';
 }
 
+async function setInstanceBackground(backgroundUrl) {
+    let body = document.body;
+
+    // Verificar si la URL es válida
+    if (backgroundUrl && backgroundUrl.match(/^(http|https):\/\/[^ "]+$/)) {
+        body.style.backgroundImage = `linear-gradient(#00000080, #00000080), url(${backgroundUrl})`;
+    } else {
+        // Usar el fondo predeterminado fuji.mp4 si no se proporciona una URL válida
+        let video = document.createElement('video');
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        video.src = './assets/images/background/dark/fuji.mp4';
+        video.style.position = 'fixed';
+        video.style.top = '0';
+        video.style.left = '0';
+        video.style.width = '100%';
+        video.style.height = '100%';
+        video.style.objectFit = 'cover';
+        video.style.zIndex = '-1';
+        document.body.appendChild(video);
+    }
+
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+}
+
 async function changePanel(id) {
     let panel = document.querySelector(`.${id}`);
-    let active = document.querySelector(`.active`)
+    let active = document.querySelector(`.active`);
     if (active) active.classList.toggle("active");
     panel.classList.add("active");
 }
 
 async function appdata() {
-    return await ipcRenderer.invoke('appData').then(path => path)
+    return await ipcRenderer.invoke('appData').then(path => path);
 }
 
 async function addAccount(data) {
-    let skin = false
+    let skin = false;
     if (data?.profile?.skins[0]?.base64) skin = await new skin2D().creatHeadTexture(data.profile.skins[0].base64);
     let div = document.createElement("div");
     div.classList.add("account");
@@ -64,13 +91,13 @@ async function addAccount(data) {
         <div class="delete-profile" id="${data.ID}">
             <div class="icon-account-delete delete-profile-icon"></div>
         </div>
-    `
+    `;
     return document.querySelector('.accounts-list').appendChild(div);
 }
 
 async function accountSelect(data) {
     let account = document.getElementById(`${data.ID}`);
-    let activeAccount = document.querySelector('.account-select')
+    let activeAccount = document.querySelector('.account-select');
 
     if (activeAccount) activeAccount.classList.toggle('account-select');
     account.classList.add('account-select');
@@ -83,36 +110,35 @@ async function headplayer(skinBase64) {
 }
 
 async function setStatus(opt) {
-    let nameServerElement = document.querySelector('.server-status-name')
-    let statusServerElement = document.querySelector('.server-status-text')
-    let playersOnline = document.querySelector('.status-player-count .player-count')
+    let nameServerElement = document.querySelector('.server-status-name');
+    let statusServerElement = document.querySelector('.server-status-text');
+    let playersOnline = document.querySelector('.status-player-count .player-count');
 
     if (!opt) {
-        statusServerElement.classList.add('red')
-        statusServerElement.innerHTML = `Ferme - 0 ms`
-        document.querySelector('.status-player-count').classList.add('red')
-        playersOnline.innerHTML = '0'
-        return
+        statusServerElement.classList.add('red');
+        statusServerElement.innerHTML = `Ferme - 0 ms`;
+        document.querySelector('.status-player-count').classList.add('red');
+        playersOnline.innerHTML = '0';
+        return;
     }
 
-    let { ip, port, nameServer } = opt
-    nameServerElement.innerHTML = nameServer
+    let { ip, port, nameServer } = opt;
+    nameServerElement.innerHTML = nameServer;
     let status = new Status(ip, port);
     let statusServer = await status.getStatus().then(res => res).catch(err => err);
 
     if (!statusServer.error) {
-        statusServerElement.classList.remove('red')
-        document.querySelector('.status-player-count').classList.remove('red')
-        statusServerElement.innerHTML = `En ligne - ${statusServer.ms} ms`
-        playersOnline.innerHTML = statusServer.playersConnect
+        statusServerElement.classList.remove('red');
+        document.querySelector('.status-player-count').classList.remove('red');
+        statusServerElement.innerHTML = `En ligne - ${statusServer.ms} ms`;
+        playersOnline.innerHTML = statusServer.playersConnect;
     } else {
-        statusServerElement.classList.add('red')
-        statusServerElement.innerHTML = `Ferme - 0 ms`
-        document.querySelector('.status-player-count').classList.add('red')
-        playersOnline.innerHTML = '0'
+        statusServerElement.classList.add('red');
+        statusServerElement.innerHTML = `Ferme - 0 ms`;
+        document.querySelector('.status-player-count').classList.add('red');
+        playersOnline.innerHTML = '0';
     }
 }
-
 
 export {
     appdata as appdata,
@@ -122,10 +148,11 @@ export {
     logger as logger,
     popup as popup,
     setBackground as setBackground,
+    setInstanceBackground as setInstanceBackground, // Exportar la nueva función
     skin2D as skin2D,
     addAccount as addAccount,
     accountSelect as accountSelect,
     slider as Slider,
     pkg as pkg,
     setStatus as setStatus
-}
+};

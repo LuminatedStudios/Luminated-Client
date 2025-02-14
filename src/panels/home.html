@@ -1,61 +1,69 @@
 <div class="container">
-    <div class="status-server">
-        <img class="server-status-icon" src="assets/images/icon.png">
-        <div class="server-status-infos">
-            <div class="server-status-name">Minecraft</div>
-            <div class="server-status-text">operationeel - 0 ms</div>
-        </div>
-        <div class="status-player-count">
-            <div class="player-count">0</div>
+    <div class="topbar">
+        <div class="message-container">
+            <img  class="message-icon" src="assets/images/default/setve.png">
+            <div class="message-text">
+                <div class="message-title">Notificación</div>
+                <div class="message-content">Esto no deberías de estar viéndolo</div> 
+            </div>
         </div>
     </div>
-
+    
     <div class="home-bottom">
-        <div class="new-tab">
-            <div class="titre-tab-new">Actualités</div>
-            <div class="news-list content-scroll"></div>
-        </div>
         <div class="social-tab">
-            <div class="social-list content-scroll">
-                <div data-url="https://discord.gg/e9q7Yr2cuQ" class="social-block">
-                    <div class="icon-discord icon-social"></div>
-                </div>
-
-                <div data-url="https://github.com/luuxis" class="social-block">
-                    <div class="icon-github icon-social"></div>
-                </div>
-
-                <div data-url="https://www.youtube.com/LuuxisHD" class="social-block">
-                    <div class="icon-youtube icon-social"></div>
-                </div>
+            <div class="social-block" data-url="https://dsc.gg/fujiteam">
+                <div class="icon-discord icon-social"></div>
+            </div>
+            <div class="social-block" data-url="https://kick.com/elb-gg">
+                <div class="icon-kick icon-social"></div>
+            </div>
+        </div>
+        <div class="play-elements">
+            <div class="play-instance">
+                <button class="play-btn">JUGAR</button>
+            </div> 
+            <div class="info-starting-game">
+                <div class="info-starting-game-text">Conectando...</div>
+                <progress value="0" max="0" class="progress-bar"></progress>
             </div>
         </div>
     </div>
 
     <div class="sidebar">
         <div class="player-options">
-            <div class="player-head"></div>
+            <div class="head-frame"><div class="player-head"></div></div>
         </div>
-
-        <div class="play-elements">
-            <div class="play-instance">
-                <button class="play-btn">Jouer</button>
-                <div class="instance-select icon-arrow"></div>
-            </div>
-            <div class="info-starting-game">
-                <div class="info-starting-game-text">Connexion...</div>
-                <progress value="0" max="0" class="progress-bar"></progress>
+        <div class="instance-manager">
+            <div class="recent-instances"></div>
+            <div class="instance-select">
+                <img src="assets/images/svgs/grid.svg" alt="grid icon" class="grid-icon">
             </div>
         </div>
-
-        <div class="settings-btn icon-settings"></div>
+        <div class="button-container">
+            <div class="mods-btn icon-mods"></div>
+            <div class="settings-btn icon-settings"></div>
+        </div>
     </div>
 
     <div class="instance-popup">
         <div class="instances-tab">
             <div class="close-popup icon-close"></div>
-            <p>Choisissez votre instance...</p>
-            <div class="instances-List"></div>
+            <p>Clientes disponibles:</p>
+            <div class="instances-grid-container">
+                <div class="instances-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="add-instance-popup">
+        <div class="popup-content">
+            <h2>Agregar Instancia</h2>
+            <p class="warning-message">El código introducido será asignado a la cuenta seleccionada actualmente.</p>
+            <input type="text" class="add-instance-input" placeholder="Introduce el código">
+            <div>
+                <button class="add-instance-confirm">Agregar</button>
+                <button class="add-instance-cancel">Cancelar</button>
+            </div>
         </div>
     </div>
 </div>

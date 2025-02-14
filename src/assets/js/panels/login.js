@@ -1,3 +1,4 @@
+
 /**
  * @author Luuxis
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
@@ -28,7 +29,7 @@ class Login {
     }
 
     async getMicrosoft() {
-        console.log('Initializing Microsoft login...');
+        console.log('Inicializando inicio de sesión de Microsoft...');
         let popupLogin = new popup();
         let loginHome = document.querySelector('.login-home');
         let microsoftBtn = document.querySelector('.connect-home');
@@ -36,8 +37,8 @@ class Login {
 
         microsoftBtn.addEventListener("click", () => {
             popupLogin.openPopup({
-                title: 'Connexion',
-                content: 'Veuillez patienter...',
+                title: 'Conexión',
+                content: 'Por favor, espera...',
                 color: 'var(--color)'
             });
 
@@ -52,7 +53,7 @@ class Login {
 
             }).catch(err => {
                 popupLogin.openPopup({
-                    title: 'Erreur',
+                    title: 'Error',
                     content: err,
                     options: true
                 });
@@ -61,50 +62,89 @@ class Login {
     }
 
     async getCrack() {
-        console.log('Initializing offline login...');
+        console.log('Inicializando inicio de sesión sin conexión...');
         let popupLogin = new popup();
         let loginOffline = document.querySelector('.login-offline');
-
         let emailOffline = document.querySelector('.email-offline');
         let connectOffline = document.querySelector('.connect-offline');
+        let microsoftcracked = document.querySelector('.connect-microsoftcracked');
+    
         loginOffline.style.display = 'block';
-
+    
+        // Lógica para el inicio de sesión sin conexión (offline)
         connectOffline.addEventListener('click', async () => {
-            if (emailOffline.value.length < 3) {
+            let username = emailOffline.value.trim();
+    
+            if (username.length < 3) {
                 popupLogin.openPopup({
-                    title: 'Erreur',
-                    content: 'Votre pseudo doit faire au moins 3 caractères.',
+                    title: 'Error',
+                    content: 'Tu nombre de usuario debe tener al menos 3 caracteres.',
                     options: true
                 });
                 return;
             }
-
-            if (emailOffline.value.match(/ /g)) {
+    
+            if (username.match(/ /g)) {
                 popupLogin.openPopup({
-                    title: 'Erreur',
-                    content: 'Votre pseudo ne doit pas contenir d\'espaces.',
+                    title: 'Error',
+                    content: 'Tu nombre de usuario no debe contener espacios.',
                     options: true
                 });
                 return;
             }
-
-            let MojangConnect = await Mojang.login(emailOffline.value);
-
-            if (MojangConnect.error) {
+    
+            try {
+                let MojangConnect = await Mojang.login(username);
+    
+                if (MojangConnect.error) {
+                    popupLogin.openPopup({
+                        title: 'Error',
+                        content: MojangConnect.message,
+                        options: true
+                    });
+                    return;
+                }
+    
+                await this.saveData(MojangConnect);
+                popupLogin.closePopup();
+            } catch (error) {
+                console.error('Error durante el inicio de sesión:', error);
                 popupLogin.openPopup({
-                    title: 'Erreur',
-                    content: MojangConnect.message,
+                    title: 'Error',
+                    content: 'Ocurrió un error inesperado. Por favor, intenta nuevamente.',
                     options: true
                 });
-                return;
             }
-            await this.saveData(MojangConnect)
-            popupLogin.closePopup();
+        });
+    
+        // Lógica para el inicio de sesión con Microsoft
+        microsoftcracked.addEventListener('click', () => {
+            popupLogin.openPopup({
+                title: 'Iniciar sesión',
+                content: 'Conectando...',
+                color: 'var(--color)'
+            });
+    
+            ipcRenderer.invoke('Microsoft-window', this.config.client_id).then(async account_connect => {
+                if (account_connect == 'cancel' || !account_connect) {
+                    popupLogin.closePopup();
+                    return;
+                } else {
+                    await this.saveData(account_connect); // Guarda los datos de la cuenta
+                    popupLogin.closePopup(); // Cierra el popup
+                }
+            }).catch(err => {
+                popupLogin.openPopup({
+                    title: 'Error',
+                    content: err,
+                    options: true
+                });
+            });
         });
     }
 
     async getAZauth() {
-        console.log('Initializing AZauth login...');
+        console.log('Inicializando inicio de sesión de AZauth...');
         let AZauthClient = new AZauth(this.config.online);
         let PopupLogin = new popup();
         let loginAZauth = document.querySelector('.login-AZauth');
@@ -121,15 +161,15 @@ class Login {
 
         AZauthConnectBTN.addEventListener('click', async () => {
             PopupLogin.openPopup({
-                title: 'Connexion en cours...',
-                content: 'Veuillez patienter...',
+                title: 'Conectando...',
+                content: 'Por favor, espera...',
                 color: 'var(--color)'
             });
 
             if (AZauthEmail.value == '' || AZauthPassword.value == '') {
                 PopupLogin.openPopup({
-                    title: 'Erreur',
-                    content: 'Veuillez remplir tous les champs.',
+                    title: 'Error',
+                    content: 'Por favor, llena todos los campos.',
                     options: true
                 });
                 return;
@@ -139,7 +179,7 @@ class Login {
 
             if (AZauthConnect.error) {
                 PopupLogin.openPopup({
-                    title: 'Erreur',
+                    title: 'Error',
                     content: AZauthConnect.message,
                     options: true
                 });
@@ -156,15 +196,15 @@ class Login {
 
                 connectAZauthA2F.addEventListener('click', async () => {
                     PopupLogin.openPopup({
-                        title: 'Connexion en cours...',
-                        content: 'Veuillez patienter...',
+                        title: 'Conectando...',
+                        content: 'Por favor, espera...',
                         color: 'var(--color)'
                     });
 
                     if (AZauthA2F.value == '') {
                         PopupLogin.openPopup({
-                            title: 'Erreur',
-                            content: 'Veuillez entrer le code A2F.',
+                            title: 'Error',
+                            content: 'Por favor, ingresa el código de autenticación.',
                             options: true
                         });
                         return;
@@ -174,7 +214,7 @@ class Login {
 
                     if (AZauthConnect.error) {
                         PopupLogin.openPopup({
-                            title: 'Erreur',
+                            title: 'Error',
                             content: AZauthConnect.message,
                             options: true
                         });
