@@ -1,8 +1,8 @@
 const RPC = require("discord-rpc");
 const axios = require("axios");
 
-const clientId = "1338623031731421295"; // ID de la aplicación en Discord
-const instanceIconURL = "http://35.223.207.90/launcher/config-launcher/instanceIcon.json"; // JSON con los íconos personalizados
+const clientId = "1342157265725292676"; // ID de la aplicación en Discord
+const instanceIconURL = "http://35.192.9.118/launcher/config-launcher/instanceIcon.json"; // JSON con los íconos personalizados
 
 const rpc = new RPC.Client({ transport: "ipc" });
 

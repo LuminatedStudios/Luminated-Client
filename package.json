@@ -1,19 +1,19 @@
 {
-    "name": "Fuji-Client",
-    "preductname": "Fuji Client",
-    "version": "1.0.2",
-    "description": "Launcher Oficial de Fuji Team",
+    "name": "Luminted-Client",
+    "preductname": "Luminated Client",
+    "version": "1.0.0",
+    "description": "Launcher Oficial de Luminated Studios",
     "main": "src/app.js",
     "author": {
         "name": "ELB_GG",
         "url": "https://www.tiktok.com/@elb_gg"
     },
-    "url": "http://35.223.207.90/",
+    "url": "http://35.192.9.118/",
     "scripts": {
         "start": "cross-env-shell NODE_ENV=dev electron .",
         "dev": "cross-env-shell DEV_TOOL=open nodemon --exec npm start",
         "build": "node build.js --obf=true --build=platform",
-        "icon": "node build.js --icon=https://raw.githubusercontent.com/ELBGG/Yama-Launcher/master/src/assets/images/icon.png"
+        "icon": "node build.js --icon=https://raw.githubusercontent.com/LuminatedStudios/Luminated-Client/refs/heads/master/src/assets/images/icon.png"
     },
     "license": "CCANC",
     "nodemonConfig": {
@@ -40,6 +40,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ELBGG/Fuji-Team.git"
+        "url": "git+https://github.com/LuminatedStudios/Luminated-Client.git"
     }
 }

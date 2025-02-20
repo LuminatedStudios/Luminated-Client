@@ -2,11 +2,11 @@
     --icon-unselected: #707070;
     --box: #1A1A1A;
     --box-hover: #202020;
-    --box-button: #0078bd;
-    --box-button-hover: #053e8a;
+    --box-button: #4d4d4d;
+    --box-button-hover: #505050;
     --box-button-hover-2: #001f47;
-    --box-button-gradient-1: 	#00FFFF;
-    --box-button-gradient-2: 	#0096FF;
+    --box-button-gradient-1: 	#525252;
+    --box-button-gradient-2: 	#3d3d3d;
     --notification-red: rgba(255, 0, 0, 0.25);
     --notification-green: rgba(0, 255, 0, 0.25);
     --notification-blue: rgba(0, 0, 255, 0.25);

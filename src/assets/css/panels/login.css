@@ -2,11 +2,11 @@
     --icon-unselected: #707070;
     --box: #1A1A1A;
     --box-hover: #202020;
-    --box-button: #0078bd;
-    --box-button-hover: #053e8a;
-    --box-button-hover-2: #001f47;
-    --box-button-gradient-1: 	#00FFFF;
-    --box-button-gradient-2: 	#0096FF;
+    --box-button: #535353;
+    --box-button-hover: #3f3f3f;
+    --box-button-hover-2: #1f1f1f;
+    --box-button-gradient-1: 	#696969;
+    --box-button-gradient-2: 	#3b3b3b;
 }
 .login .container {
     display: flex;
